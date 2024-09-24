@@ -56,13 +56,15 @@ def user_input_features():
     
     features = pd.DataFrame(data, index=[0])
     return features
-
 input_df = user_input_features()
-test_X = preprocessor.transform(input_df)
-prediction = model.predict(test_X)[0]
 
-st.subheader('Predicted Flight Price')
-st.write(prediction)
+if st.sidebar.button('Make Prediction'):
+    st.write("Input Data :")
+    test_X = preprocessor.transform(input_df)
+    prediction = model.predict(test_X)[0]
+    st.dataframe(input_df)
+    st.write('Predicted Flight Price :',prediction)
+    #st.write(prediction)
 
 # file_p.close()
 # file_m.close()
