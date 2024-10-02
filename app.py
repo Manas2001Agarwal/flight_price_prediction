@@ -9,9 +9,9 @@ import dill
 from datetime import datetime
 from sklearn.metrics import r2_score, mean_squared_error , mean_absolute_error
 
-path_model = "/Users/mukulagarwal/Desktop/Python_Code/flights_sagemaker_project/model.pkl"
-path_preprocessor = "/Users/mukulagarwal/Desktop/Python_Code/flights_sagemaker_project/preprocessor.pkl"
-train_data_path = "/Users/mukulagarwal/Desktop/Python_Code/flights_sagemaker_project/Data/train.csv"
+path_model = "model.pkl"
+path_preprocessor = "preprocessor.pkl"
+train_data_path = "Data/train.csv"
 test_data_path = "/Users/mukulagarwal/Desktop/Python_Code/flights_sagemaker_project/Data/test.csv"
 
 train_data = pd.read_csv(train_data_path)
@@ -74,7 +74,7 @@ if st.sidebar.button('Make Prediction'):
 
 
     r2 = r2_score(test_data['price'],prediction)
-    st.metric("r2_score",round(r2,4))
+    st.metric("r2_score",round(r2,4))  # type: ignore
     
     x_max = np.max(prediction)
     x_min = np.min(prediction)
