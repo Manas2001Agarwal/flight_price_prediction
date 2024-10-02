@@ -12,7 +12,7 @@ from sklearn.metrics import r2_score, mean_squared_error , mean_absolute_error
 path_model = "model.pkl"
 path_preprocessor = "preprocessor.pkl"
 train_data_path = "Data/train.csv"
-test_data_path = "/Users/mukulagarwal/Desktop/Python_Code/flights_sagemaker_project/Data/test.csv"
+test_data_path = "Data/test.csv"
 
 train_data = pd.read_csv(train_data_path)
 test_data = pd.read_csv(test_data_path)
