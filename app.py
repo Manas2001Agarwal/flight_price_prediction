@@ -1,17 +1,21 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt 
 from sklearn import datasets
 from sklearn.ensemble import RandomForestClassifier
 import sklearn
 import dill
 from datetime import datetime
+from sklearn.metrics import r2_score, mean_squared_error , mean_absolute_error
 
 path_model = "/Users/mukulagarwal/Desktop/Python_Code/flights_sagemaker_project/model.pkl"
 path_preprocessor = "/Users/mukulagarwal/Desktop/Python_Code/flights_sagemaker_project/preprocessor.pkl"
 train_data_path = "/Users/mukulagarwal/Desktop/Python_Code/flights_sagemaker_project/Data/train.csv"
+test_data_path = "/Users/mukulagarwal/Desktop/Python_Code/flights_sagemaker_project/Data/test.csv"
 
 train_data = pd.read_csv(train_data_path)
+test_data = pd.read_csv(test_data_path)
 
 with open(path_preprocessor, 'rb') as file_p:
     preprocessor = dill.load(file_p)
@@ -63,4 +67,34 @@ if st.sidebar.button('Make Prediction'):
     test_X = preprocessor.transform(input_df)
     prediction = model.predict(test_X)[0]
     st.dataframe(input_df)
-    st.write('Predicted Flight Price :',prediction)
+    st.metric('Predicted Flight Price :',f"{round(prediction,2)}")
+    
+    test_X = preprocessor.transform(test_data)
+    prediction = model.predict(test_X)
+
+
+    r2 = r2_score(test_data['price'],prediction)
+    st.metric("r2_score",round(r2,4))
+    
+    x_max = np.max(prediction)
+    x_min = np.min(prediction)
+    fig,ax = plt.subplots(
+        figsize=(7,3),
+    )
+    st.write('''
+             ### Residual Plot
+             ''')
+    ax.scatter(
+        test_data['price'],test_data['price']-prediction,
+        c='limegreen', marker='s',
+        edgecolor='white'
+    )
+    ax.hlines(y=0, xmin=x_min-100, xmax=x_max+100,
+              color='black', lw=2)
+    ax.set_ylabel("Residual")
+    ax.set_xlabel("Predicted Values")
+    plt.tight_layout()
+    st.pyplot(fig)
+        
+                    
+    
