@@ -1,6 +1,6 @@
 pandas
 matplotlib
-sklearn
+scikit-learn
 numpy
 dill
-#feature_engine
+feature_engine
