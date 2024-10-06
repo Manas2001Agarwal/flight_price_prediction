@@ -76,6 +76,27 @@ if st.sidebar.button('Make Prediction'):
     r2 = r2_score(test_data['price'],prediction)
     st.metric("r2_score",round(r2,4))  # type: ignore
     
+    st.write('''
+             ### Actual vs Predicted
+             ''')
+    
+    fig1,ax1 = plt.subplots(
+        figsize=(7,3),
+    )
+    
+    ax1.scatter(
+        y = test_data['price'],
+        x = prediction,
+        c = 'lightblue',
+        marker = 'o',
+        edgecolors= 'black'
+    )
+    
+    ax1.set_ylabel("Residual")
+    ax1.set_xlabel("Predicted Values")
+    plt.tight_layout()
+    st.pyplot(fig1)
+    
     x_max = np.max(prediction)
     x_min = np.min(prediction)
     fig,ax = plt.subplots(
@@ -85,7 +106,7 @@ if st.sidebar.button('Make Prediction'):
              ### Residual Plot
              ''')
     ax.scatter(
-        test_data['price'],test_data['price']-prediction,
+        prediction,test_data['price']-prediction,
         c='limegreen', marker='s',
         edgecolor='white'
     )
